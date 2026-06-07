@@ -33,10 +33,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     scan_interval = entry.data.get("scan_interval", 60)
 
     def on_tokens_updated(token: str, refresh_token: str):
-        """Persist new tokens to config entry after refresh."""
-        hass.config_entries.async_update_entry(
-            entry,
-            data={**entry.data, CONF_TOKEN: token, CONF_REFRESH_TOKEN: refresh_token},
+        """Persist new tokens to config entry after refresh — must be scheduled on event loop."""
+        hass.loop.call_soon_threadsafe(
+            lambda: hass.config_entries.async_update_entry(
+                entry,
+                data={**entry.data, CONF_TOKEN: token, CONF_REFRESH_TOKEN: refresh_token},
+            )
         )
         _LOGGER.debug("Deepal: tokens persisted to config entry")
 
@@ -76,8 +78,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         matched = None
         code = vehicle_info_response.get("code", "") if vehicle_info_response else ""
         msg = vehicle_info_response.get("msg", "Unknown error") if vehicle_info_response else "No response"
-        # Clean up non-breaking spaces from API messages
-        msg = msg.replace(" ", " ") if msg else msg
+        msg = msg.replace("\xa0", " ") if msg else msg
         if code in ("APP_1_1_02_005", "401", "40001", "COMMON_1_1_01_001"):
             _LOGGER.error("Deepal: auth error loading vehicle info (%s): %s", code, msg)
             on_token_invalid()
@@ -102,7 +103,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             except Exception:
                 ota_data = None
 
-            # Merge OTA into condition data
             condition["ota"] = ota_data
             return condition
         except TokenInvalidError as e:
