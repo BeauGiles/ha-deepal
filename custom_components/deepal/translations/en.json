@@ -1,0 +1,61 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Deepal — Select country",
+        "data": {
+          "country": "Country"
+        }
+      },
+      "token": {
+        "title": "Deepal — Enter tokens",
+        "description": "Paste your access token and refresh token from a proxy capture of the Deepal app login.",
+        "data": {
+          "token": "Access token",
+          "refresh_token": "Refresh token",
+          "device_id": "Device ID (optional — leave blank to auto-generate, or paste your phone's device ID to share its session)"
+        }
+      },
+      "pick_vehicle": {
+        "title": "Deepal — Select vehicle",
+        "data": {
+          "vehicle": "Vehicle"
+        }
+      },
+      "reconfigure": {
+        "title": "Deepal — Update tokens",
+        "data": {
+          "token": "Access token",
+          "refresh_token": "Refresh token",
+          "device_id": "Device ID (optional)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Authentication failed. Check your tokens.",
+      "cannot_connect": "Could not connect to Deepal API or no vehicles found. Check your tokens."
+    }
+  },
+  "issues": {
+    "token_invalid": {
+      "title": "Deepal — Re-authentication required",
+      "description": "Your Deepal session is no longer valid. This can happen if you logged in on another device, or your tokens expired. Click Fix to paste new tokens.",
+      "fix_flow": {
+        "step": {
+          "paste_tokens": {
+            "title": "Paste new tokens",
+            "description": "Capture a fresh login from the Deepal app using a proxy tool and paste the tokens below.",
+            "data": {
+              "token": "Access token",
+              "refresh_token": "Refresh token",
+              "device_id": "Device ID (optional)"
+            }
+          }
+        },
+        "error": {
+          "invalid_auth": "Authentication failed. Check your tokens."
+        }
+      }
+    }
+  }
+}
