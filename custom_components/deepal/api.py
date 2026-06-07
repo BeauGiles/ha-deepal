@@ -8,7 +8,7 @@ from typing import Callable, Optional
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import BASE_URL, USER_AGENT, RSA_PUBLIC_KEY
+from .const import BASE_URL, USER_AGENT
 
 BASE_HEADERS = {
     "appId": "ca",
