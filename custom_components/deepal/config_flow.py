@@ -6,7 +6,7 @@ from homeassistant import config_entries
 from .const import (
     DOMAIN,
     CONF_TOKEN, CONF_REFRESH_TOKEN, CONF_DEVICE_ID, CONF_VEHICLE_ID,
-    CONF_EMAIL, CONF_PASSWORD, CONF_AUTH_MODE, CONF_COUNTRY,
+    CONF_AUTH_MODE, CONF_COUNTRY,
     AUTH_MODE_TOKEN,
 )
 
@@ -128,8 +128,6 @@ class DeepalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 CONF_DEVICE_ID: self._device_id,
                 CONF_VEHICLE_ID: vehicle["carId"],
                 CONF_COUNTRY: self._country,
-                CONF_EMAIL: "",
-                CONF_PASSWORD: "",
             },
         )
 
