@@ -2,6 +2,8 @@
 
 An unofficial Home Assistant integration for Deepal electric vehicles, using the Deepal app API.
 
+Currently read only, with no ability to make changes to the car settings or do any actions.
+
 ## Supported vehicles
 
 Currently tested on the **Deepal S07**. Other Deepal models may work but are untested.
@@ -16,7 +18,7 @@ Currently tested on the **Deepal S07**. Other Deepal models may work but are unt
 - Tyre pressures with warning status
 - HVAC A/C and defrost status
 - OTA firmware update status
-- Lock status
+- Lock status (the status will reflect your car lock status, but the lock/unlock button will not do anything)
 - Vehicle image
 
 ## Installation
@@ -49,7 +51,7 @@ This integration requires tokens from the Deepal app. You will need to capture t
 
 1. Select your country
 2. Paste your `token` and `refreshToken`
-3. Optionally paste your phone's `deviceId` from the captured request headers — this allows HA to share your phone's session without logging it out, if you are having issues staying logged in. Leave blank to auto-generate a new device ID.
+3. Optionally paste your phone's `deviceId` from the captured request headers — you may need to do this if you're having trouble with HA sharing your phone's session without logging it out. Leave blank to auto-generate a new device ID.
 4. Your vehicle will be discovered automatically
 
 ## Token refresh
@@ -67,3 +69,9 @@ If your tokens become invalid (e.g. you logged in on another device), a repair n
 ## Disclaimer
 
 This integration is not affiliated with or endorsed by Deepal or Changan Automobile. Use at your own risk.
+
+## Screenshots
+
+<img width="808" height="361" alt="Screenshot 2026-06-08 at 00 35 51" src="https://github.com/user-attachments/assets/29f72b8a-53b3-40cb-aa7f-a52908d81983" />
+<img width="512" height="923" alt="Screenshot 2026-06-08 at 00 34 59" src="https://github.com/user-attachments/assets/8f285238-98d4-46ce-88b4-0229740551b9" />
+
