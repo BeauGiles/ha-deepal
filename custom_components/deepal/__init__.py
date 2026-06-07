@@ -10,7 +10,7 @@ from .api import DeepalAPI, TokenInvalidError
 from .const import (
     DOMAIN, PLATFORMS,
     CONF_TOKEN, CONF_REFRESH_TOKEN, CONF_DEVICE_ID, CONF_VEHICLE_ID,
-    CONF_EMAIL, CONF_PASSWORD, CONF_AUTH_MODE, CONF_COUNTRY, AUTH_MODE_TOKEN,
+    CONF_AUTH_MODE, CONF_COUNTRY,
 )
 
 _LOGGER = logging.getLogger(__name__)
