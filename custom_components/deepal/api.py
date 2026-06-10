@@ -40,8 +40,6 @@ def _decode_token_expiry(token: str) -> int:
         return 0
 
 
-
-
 def fetch_countries() -> dict:
     """Fetch supported countries — no auth required."""
     import urllib.request
@@ -111,21 +109,25 @@ class DeepalAPI:
             if not self._token_needs_refresh():
                 return True
             url = f"{BASE_URL}/intl-app-auth/api/auth/refresh-token"
-            try:
-                r = self.session.post(url, json={"refreshToken": self.refresh_token})
-                data = r.json()
-                if data.get("success"):
-                    self.update_tokens(
-                        data["data"]["token"],
-                        data["data"]["refreshToken"],
-                    )
-                    _LOGGER.info("Deepal: token refreshed, expires at %s", self._token_expiry)
-                    return True
-                _LOGGER.error("Deepal: token refresh failed: %s", data)
-                return False
-            except Exception as e:
-                _LOGGER.error("Deepal: token refresh exception: %s", e)
-                return False
+            for attempt in range(3):
+                try:
+                    r = self.session.post(url, json={"refreshToken": self.refresh_token})
+                    data = r.json()
+                    if data.get("success"):
+                        self.update_tokens(
+                            data["data"]["token"],
+                            data["data"]["refreshToken"],
+                        )
+                        _LOGGER.info("Deepal: token refreshed, expires at %s", self._token_expiry)
+                        return True
+                    _LOGGER.error("Deepal: token refresh failed: %s", data)
+                    return False
+                except Exception as e:
+                    _LOGGER.warning("Deepal: token refresh attempt %d failed: %s", attempt + 1, e)
+                    if attempt < 2:
+                        time.sleep(2)
+            _LOGGER.error("Deepal: token refresh failed after 3 attempts")
+            return False
 
     def _is_auth_error(self, data: dict) -> bool:
         if not data:
@@ -134,36 +136,40 @@ class DeepalAPI:
         return not data.get("success") and code in (
             "401", "40001", "token expired",
             "COMMON_1_1_01_001",
-            "APP_1_1_02_005",  # Logged in on another device
+            "APP_1_1_02_005",
         )
 
     def _request(self, method: str, url: str, **kwargs):
-        try:
-            if self._token_needs_refresh():
-                if not self.refresh():
-                    raise TokenInvalidError("Token refresh failed")
+        for attempt in range(3):
+            try:
+                if self._token_needs_refresh():
+                    if not self.refresh():
+                        raise TokenInvalidError("Token refresh failed")
 
-            r = self.session.request(method, url, **kwargs)
-            data = r.json()
-
-            if self._is_auth_error(data):
-                _LOGGER.info("Deepal: token rejected, attempting refresh...")
-                if self.refresh():
-                    r = self.session.request(method, url, **kwargs)
-                    data = r.json()
+                r = self.session.request(method, url, **kwargs)
+                data = r.json()
 
                 if self._is_auth_error(data):
-                    _LOGGER.error("Deepal: token invalid after refresh, repair required")
-                    if self._on_token_invalid:
-                        self._on_token_invalid()
-                    raise TokenInvalidError("Token invalid after refresh")
+                    _LOGGER.info("Deepal: token rejected, attempting refresh...")
+                    if self.refresh():
+                        r = self.session.request(method, url, **kwargs)
+                        data = r.json()
 
-            return data
-        except TokenInvalidError:
-            raise
-        except Exception as e:
-            _LOGGER.error("Deepal: API request exception: %s", e)
-            return None
+                    if self._is_auth_error(data):
+                        _LOGGER.error("Deepal: token invalid after refresh, repair required")
+                        if self._on_token_invalid:
+                            self._on_token_invalid()
+                        raise TokenInvalidError("Token invalid after refresh")
+
+                return data
+            except TokenInvalidError:
+                raise
+            except Exception as e:
+                _LOGGER.warning("Deepal: API request attempt %d failed: %s", attempt + 1, e)
+                if attempt < 2:
+                    time.sleep(2)
+        _LOGGER.error("Deepal: API request failed after 3 attempts")
+        return None
 
     def get_vehicle_condition(self):
         url = f"{BASE_URL}/intl-app-car-condition/api/vehicle/condition"
@@ -188,10 +194,6 @@ class DeepalAPI:
         }
         return self._request("POST", url, json=body)
 
-    def get_ota_status(self):
-        url = f"{BASE_URL}/intl-app-user/api/ota/get-upgrade-status"
-        return self._request("POST", url, json={"vehicleId": int(self.vehicle_id)})
-
     def get_vehicle_info(self):
         url = f"{BASE_URL}/intl-app-user/api/car/vehicles"
         return self._request("POST", url, json={})
@@ -200,3 +202,7 @@ class DeepalAPI:
         """Fetch vehicle list — used during config flow before full API init."""
         url = f"{BASE_URL}/intl-app-user/api/car/vehicles"
         return self.session.post(url, json={}).json()
+
+    def get_ota_status(self):
+        url = f"{BASE_URL}/intl-app-user/api/ota/get-upgrade-status"
+        return self._request("POST", url, json={"vehicleId": int(self.vehicle_id)})
