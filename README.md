@@ -6,7 +6,9 @@ Currently read only, with no ability to make changes to the car settings or do a
 
 ## Supported vehicles
 
-Currently tested on the **Deepal S07**. Other Deepal models may work but are untested.
+Currently tested on the **Deepal S07** in Australia.
+Other Deepal models may work but are untested.
+Any available data or API access for vehicles in regions other than Australia is also untested.
 
 ## Features
 
