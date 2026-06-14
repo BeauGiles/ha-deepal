@@ -3,7 +3,7 @@ import logging
 from homeassistant.components.repairs import RepairsFlow
 from homeassistant.core import HomeAssistant
 
-from .const import DOMAIN, CONF_TOKEN, CONF_REFRESH_TOKEN, CONF_DEVICE_ID
+from .const import DOMAIN, CONF_TOKEN, CONF_REFRESH_TOKEN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,7 +29,6 @@ class TokenInvalidRepairFlow(RepairsFlow):
                     **entry.data,
                     CONF_TOKEN: token if token.startswith("Bearer ") else f"Bearer {token}",
                     CONF_REFRESH_TOKEN: refresh_token if refresh_token.startswith("Bearer ") else f"Bearer {refresh_token}",
-                    CONF_DEVICE_ID: user_input.get(CONF_DEVICE_ID) or entry.data.get(CONF_DEVICE_ID),
                 },
             )
             await self.hass.config_entries.async_reload(entry.entry_id)
@@ -40,7 +39,6 @@ class TokenInvalidRepairFlow(RepairsFlow):
             data_schema=vol.Schema({
                 vol.Required(CONF_TOKEN): str,
                 vol.Required(CONF_REFRESH_TOKEN): str,
-                vol.Optional(CONF_DEVICE_ID, description={"suggested_value": ""}): str,
             }),
         )
 
