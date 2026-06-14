@@ -44,12 +44,12 @@ async def async_setup_entry(hass, entry, async_add_entities):
                            "Driver Door Lock", "driver_door",
                            BinarySensorDeviceClass.LOCK,
                            ["door", "driverLock"],
-                           lambda x: x == 0),
+                           lambda x: x == 1),
         DeepalBinarySensor(coordinator, entry, vehicle_info,
                            "Front Passenger Door Lock", "passenger_door",
                            BinarySensorDeviceClass.LOCK,
                            ["door", "passengerLock"],
-                           lambda x: x == 0),
+                           lambda x: x == 1),
 
         # --- Boot ---
         DeepalBinarySensor(coordinator, entry, vehicle_info,
