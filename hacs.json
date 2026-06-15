@@ -1,5 +1,8 @@
 {
-  "name": "Deepal Unofficial",
-  "description": "Unofficial Home Assistant integration for Deepal electric vehicles",
-  "render_readme": true
+  "name": "Return and Earn",
+  "category": "integration",
+  "documentation": "https://github.com/BeauGiles/ha-rvm-nsw",
+  "codeowners": ["@BeauGiles"],
+  "homeassistant": "2023.1.0",
+  "iot_class": "cloud_polling"
 }
