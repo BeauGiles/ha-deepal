@@ -49,6 +49,8 @@ This integration requires tokens from the Deepal app. You will need to capture t
 3. Capture the login request to `https://m.iov.changanauto.sg/appgw/intl-app-auth/api/login/email-pass-in`
 4. From the response, copy the `token` and `refreshToken` values (including the `Bearer ` prefix)
 
+See https://github.com/BeauGiles/ha-deepal/blob/main/tokens-apple.md for more detail on getting the tokens for an iPhone and macOS.
+
 ### Configuration
 
 1. Select your country
