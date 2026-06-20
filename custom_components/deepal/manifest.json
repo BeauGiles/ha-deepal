@@ -1,12 +1,12 @@
 {
   "domain": "deepal",
   "name": "Deepal Unofficial",
-  "version": "0.1.0",
-  "documentation": "https://github.com/beaugiles/ha-deepal",
-  "issue_tracker": "https://github.com/beaugiles/ha-deepal/issues",
-  "dependencies": [],
   "codeowners": ["@BeauGiles"],
-  "requirements": ["requests>=2.28.0"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/beaugiles/ha-deepal",
   "iot_class": "cloud_polling",
-  "config_flow": true
+  "issue_tracker": "https://github.com/beaugiles/ha-deepal/issues",
+  "requirements": ["requests>=2.28.0"],
+  "version": "0.1.0"
 }
