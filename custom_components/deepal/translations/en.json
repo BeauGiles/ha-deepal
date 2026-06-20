@@ -40,12 +40,11 @@
     "token_invalid": {
       "title": "Deepal — Re-authentication required",
       "fixable": true,
-      "description": "Your Deepal session is no longer valid. This can happen if you logged in on another device, or your tokens expired. Click Fix to paste new tokens.",
       "fix_flow": {
         "step": {
           "paste_tokens": {
             "title": "Paste new tokens",
-            "description": "Capture a fresh login from the Deepal app using a proxy tool and paste the tokens below.",
+            "description": "Your Deepal session is no longer valid. This can happen if you logged in on another device, or your tokens expired. Capture a fresh login from the Deepal app using a proxy tool and paste the tokens below.",
             "data": {
               "token": "Access token",
               "refresh_token": "Refresh token"
