@@ -39,7 +39,6 @@
   "issues": {
     "token_invalid": {
       "title": "Deepal — Re-authentication required",
-      "fixable": true,
       "fix_flow": {
         "step": {
           "paste_tokens": {
