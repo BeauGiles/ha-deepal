@@ -21,7 +21,6 @@ async def _async_create_repair(hass):
         hass,
         DOMAIN,
         "token_invalid",
-        is_fixable=True,
         severity=IssueSeverity.ERROR,
         translation_key="token_invalid",
     )
