@@ -1,8 +1,6 @@
 {
   "name": "Deepal Unofficial",
-  "description": "Unofficial Home Assistant integration for Deepal electric vehicles",
   "render_readme": true,
   "homeassistant": "2024.1.0",
-  "iot_class": "cloud_polling",
   "country": ["AU", "NZ", "SG", "MY", "TH", "VN", "HK", "MO", "ID", "PH", "MN"]
 }
