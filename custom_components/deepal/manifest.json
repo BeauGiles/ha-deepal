@@ -8,6 +8,5 @@
   "codeowners": ["@BeauGiles"],
   "requirements": ["requests>=2.28.0"],
   "iot_class": "cloud_polling",
-  "config_flow": true,
-  "repair_issues": true
+  "config_flow": true
 }
