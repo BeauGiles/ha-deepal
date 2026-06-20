@@ -39,7 +39,6 @@
   "issues": {
     "token_invalid": {
       "title": "Deepal — Re-authentication required",
-      "fixable": true,
       "description": "Your Deepal session is no longer valid. This can happen if you logged in on another device, or your tokens expired. Click Fix to paste new tokens.",
       "fix_flow": {
         "step": {
